@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Dropdown from "react-dropdown";
 import parse from "html-react-parser";
+import { seasonOne } from "./seasonOne";
 
 import { formatSeasons } from "./utils/formatSeasons";
 import { fetchShow } from "./api/fetchShow";

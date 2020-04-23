@@ -1,7 +1,8 @@
 import React from "react";
 import Dropdown from "react-dropdown";
+import { seasonOne } from "./seasonOne";
 
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import App from "./App";
 import Episodes from "./components/Episodes";
 import { act } from "react-dom/test-utils";
@@ -10,34 +11,30 @@ import { fetchShow as mockFetchShow } from "./api/fetchShow";
 jest.mock("./api/fetchShow");
 
 test("renders App without crashing", () => {
-  const mockData = [{ name: "zip" }];
-  const { getByText, queryByText, rerender, queryAllByTestId } = render(
-    <App getData={mockData} />
-  );
+  const { getByText, rerender, queryAllByTestId } = render(<App />);
 
   expect(queryAllByTestId(/zoomzerz/i)).toStrictEqual([]);
 
   getByText(/Fetching data.../i);
 
-  rerender(<App getData={mockData} />);
+  rerender(<App />);
 });
 
 test("renders Episodes without crashing", async () => {
-  const { getByText, queryByText, rerender } = render(
+  const { getByText, queryAllByTestId, rerender } = render(
     <App>
-      <Dropdown value={"BEES!"} />
+      <Dropdown />
       <Episodes />
     </App>
   );
 
-  const button = getByText(/get data/i);
-  fireEvent.click(button);
+  expect(/select a season/i).toBeInTheDocument;
 
+  rerender(<Episodes episodes={seasonOne} />);
+  // getByText(/Stranger Things/i);
   await waitFor(() => {
-    expect(seeeee).toHaveLength(3333333);
+    expect(queryAllByTestId(/episode/i)).toHaveLength(seasonOne.length);
   });
-
-  rerender(<Episodes episodes={[]} />);
 
   // getByText(/BEES!/i);
 });
