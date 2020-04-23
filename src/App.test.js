@@ -22,13 +22,20 @@ test("renders App without crashing", () => {
   rerender(<App getData={mockData} />);
 });
 
-test("renders Episodes without crashing", () => {
+test("renders Episodes without crashing", async () => {
   const { getByText, queryByText, rerender } = render(
     <App>
       <Dropdown value={"BEES!"} />
       <Episodes />
     </App>
   );
+
+  const button = getByText(/get data/i);
+  fireEvent.click(button);
+
+  await waitFor(() => {
+    expect(seeeee).toHaveLength(3333333);
+  });
 
   rerender(<Episodes episodes={[]} />);
 
